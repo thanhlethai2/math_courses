@@ -1,4 +1,4 @@
-GET http://localhost:5172/api/lessons/
+GET http://localhost:5172/api/lessons/2
 
 ###
 POST http://localhost:5172/api/lessons
@@ -11,7 +11,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:5172/api/lessons/1
+PUT http://localhost:5172/api/lessons/2
 Content-Type: application/json
 
 {
@@ -22,4 +22,3 @@ Content-Type: application/json
 DELETE http://localhost:5172/api/courses/10
 
 
-# If $\\Delta<0$ the equation has two complex roots x_{1,2} = \\dfrac{-b\\pm i\\sqrt{-\\delta}}{2a}$$
