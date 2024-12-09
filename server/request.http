@@ -1,0 +1,25 @@
+GET http://localhost:5172/api/lessons/
+
+###
+POST http://localhost:5172/api/lessons
+Content-Type: application/json
+
+{
+    "course_id": 4,
+    "name": "ghfj  uiewq",
+    "content": "gfhsjg fghs ffgjsg fhj fjds jgfjagfja"
+}
+
+###
+PUT http://localhost:5172/api/lessons/1
+Content-Type: application/json
+
+{
+    "content": "Given the equation $ax^2+bx+c=0$. First of all, we calculate $$\\Delta = b^2-4ac$$ If $\\Delta >0$ then the above equation has two real roots: $$x_{1,2} = \\dfrac{-b\\pm \\sqrt{\\Delta}}{2a}$$ If $\\Delta =0$ then the equation has one double root: $$x_{1,2} = -\\dfrac{b}{2a}$$ If $\\Delta<0$ the equation has two complex roots $$x_{1,2} = \\dfrac{-b\\pm i\\sqrt{-\\Delta}}{2a}$$" 
+}
+
+###
+DELETE http://localhost:5172/api/courses/10
+
+
+# If $\\Delta<0$ the equation has two complex roots x_{1,2} = \\dfrac{-b\\pm i\\sqrt{-\\delta}}{2a}$$
