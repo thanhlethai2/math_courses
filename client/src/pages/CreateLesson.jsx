@@ -44,7 +44,7 @@ const CreateLesson = () => {
         } catch (error) {
             console.error('Error uploading file:', error);
         }
-
+        
         const url = '/api/lessons'
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -58,15 +58,15 @@ const CreateLesson = () => {
 
     return (
         <div>
-            <div className='py-10 bg-black text-center text-white px-4'>
-                <h2 className='text-5xl lg:text-7xl leading-snug font-bold mt-5'>Create Lesson Page</h2>
+            <div className='py-16 bg-black text-center text-white px-4'>
+                <h2 className='text-5xl lg:text-7xl leading-snug font-bold mt-16'>Create Lesson Page</h2>
             </div>
-            <div className='my-12 flex flex-col lg:flex-row gap-12'>
+            <div className='my-8 flex flex-col lg:flex-row gap-12'>
                 <div className='lg:w-1/5'>&nbsp;</div>
                 <div className='lg:w-3/5'>
                     <form onSubmit={save}>
                         {/* Course */}
-                        <div className="sm:col-span-3">
+                        <div className="col-span-full">
                             <label htmlFor="course_id" className="block text-xl font-medium text-gray-900">
                                 Courses
                             </label>
@@ -143,8 +143,8 @@ const CreateLesson = () => {
                                 {/* Status */}
                                 <fieldset className='mt-4'>
                                     <legend className="text-xl font-semibold text-gray-900">Status</legend>
-                                    <div className="mt-4 space-y-2">
-                                        <div className="flex items-center gap-x-3">
+                                    <div className="mt-2 space-y-2 flex flex-col lg:flex-row">
+                                        <div className="flex items-center gap-x-3 pr-8 mt-2">
                                             <input
                                                 defaultChecked
                                                 id="status_on"

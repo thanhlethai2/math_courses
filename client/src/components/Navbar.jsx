@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { FaBars } from "react-icons/fa6";
 import { FaTimes } from 'react-icons/fa';
+import Modal from './Modal';
 
 const Navbar = () => {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
@@ -17,6 +19,14 @@ const Navbar = () => {
         { path: "/about", link: "About" },
         { path: "/contact", link: "Contact" },
     ]
+
+    const openModal = () => {
+        setIsModalOpen(true)
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false)
+    }
 
     return (
         <header className='bg-gray-900 text-cyan-500 fixed top-0 left-0 right-0'>
@@ -36,7 +46,10 @@ const Navbar = () => {
                 </ul>
 
                 <div className="lg:flex gap-4 items-center hidden">
+                    <button onClick={openModal} className='bg-orange-500 text-white px-6 py-2 font-medium rounded hover:bg-white hover:text-orange-500 transition-all ease-in'>Log in</button>
                 </div>
+                {/* modal */}
+                <Modal isOpen={isModalOpen} onClose={closeModal} />
 
                 {/* mobile menu btn, display mobile screen */}
                 <div className='md:hidden'>
