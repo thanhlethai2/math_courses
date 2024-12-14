@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-
+import axios from 'axios';
+import FormData from 'form-data'
 
 const CreateLesson = () => {
 
@@ -9,6 +10,7 @@ const CreateLesson = () => {
     const [name, setLessonName] = useState('')
     const [content, setLessonContent] = useState('')
     const [status, setLessonStatus] = useState('on')
+    const [pdfFile, setPdfFile] = useState('')
 
     useEffect(() => {
 
@@ -22,8 +24,27 @@ const CreateLesson = () => {
 
     }, [])
 
+    const handleFileChange = (e) => {
+        setPdfFile(e.target.files[0]);
+    };    
+
     const save = async () => {
-        alert(course_id + ' ' + name + ' ' + content + ' ' + status)
+
+        let pdf_file = ''
+        const formData = new FormData();
+        formData.append('pdf_file', pdfFile);
+        
+        try {
+            const response = await axios.post('http://localhost:5172/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            pdf_file = response.data.filePath
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
+
         const url = '/api/lessons'
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -31,9 +52,8 @@ const CreateLesson = () => {
         const res = await fetch(url, {
             headers: myHeaders,
             method: "POST",
-            body: JSON.stringify({course_id, name, content, status}),
+            body: JSON.stringify({course_id, name, content, pdf_file, status}),
         })
-        alert(res.status)
     }
 
     return (
@@ -69,7 +89,7 @@ const CreateLesson = () => {
                         </div>
 
                         {/* Lesson name */}
-                        <div className="col-span-full mt-8">
+                        <div className="col-span-full mt-4">
                             <label htmlFor="name" className="block text-xl font-medium text-gray-900">
                                 Lesson Name
                             </label>
@@ -86,18 +106,34 @@ const CreateLesson = () => {
                         </div>
 
                         {/* Lesson Content */}
-                        <div className="col-span-full mt-8">
+                        <div className="col-span-full mt-4">
                             <label htmlFor="content" className="block text-xl font-medium text-gray-900">
-                                Lesson Content
+                                Lesson Short Description
                             </label>
                             <div className="mt-2">
                                 <textarea
                                     id="content"
                                     name="content"
                                     onChange={(e) => setLessonContent(e.target.value)}
-                                    rows={10}
+                                    rows={3}
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-md"
                                     defaultValue={''}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Lesson pdf_file */}
+                        <div className="col-span-full mt-4">
+                            <label htmlFor="name" className="block text-xl font-medium text-gray-900">
+                                Lesson Content in PDF
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    id="pdf_file"
+                                    name="pdf_file"
+                                    type="file"
+                                    onChange={handleFileChange}
+                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-md"
                                 />
                             </div>
                         </div>
@@ -105,9 +141,9 @@ const CreateLesson = () => {
                         <div className='lg:flex flex-row'>
                             <div className='lg:w-1/2'>
                                 {/* Status */}
-                                <fieldset className='mt-8'>
+                                <fieldset className='mt-4'>
                                     <legend className="text-xl font-semibold text-gray-900">Status</legend>
-                                    <div className="mt-6 space-y-3">
+                                    <div className="mt-4 space-y-2">
                                         <div className="flex items-center gap-x-3">
                                             <input
                                                 defaultChecked
@@ -150,9 +186,6 @@ const CreateLesson = () => {
                                 </div>
                             </div>
                         </div>
-
-
-
                     </form>
                 </div>
                 <div className='lg:w-1/5'>&nbsp;</div>

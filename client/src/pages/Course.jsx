@@ -49,16 +49,18 @@ const Course = () => {
                                 <p>{data.description}</p>
                             </div>
                             <p className='mt-3 mb-2 text-2xl text-gray-600'>Lessons</p>
+                            
                             <ul className='text-gray-500 ml-6'>
                             {
                                 lessons.map((lesson) => 
                                 <Link to={`/lessons/${lesson.id}`} key={lesson.id}>
                                     <div className='hover:text-orange-500'>
-                                        +&nbsp;{lesson.name}
+                                        +&nbsp;&nbsp;<>{lesson.name}</>
                                     </div>
                                 </Link>)
                             }
                             </ul>
+                            
                         </div>
                     </div>
                 </div>

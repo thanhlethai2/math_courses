@@ -5,9 +5,10 @@ POST http://localhost:5172/api/lessons
 Content-Type: application/json
 
 {
-    "course_id": 4,
-    "name": "ghfj  uiewq",
-    "content": "gfhsjg fghs ffgjsg fhj fjds jgfjagfja"
+    "course_id": 1,
+    "name": "Derivative",
+    "content": "gfhsjg",
+    "pdf_file": "1734124000840.pdf"
 }
 
 ###
@@ -21,4 +22,6 @@ Content-Type: application/json
 ###
 DELETE http://localhost:5172/api/courses/10
 
+###
 
+GET http://localhost:5172/uploads

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { MathJaxContext, MathJax } from 'better-react-mathjax'
+import { MathJax } from 'better-react-mathjax'
 
 const Lesson = () => {
 
@@ -46,22 +46,19 @@ const Lesson = () => {
             <div className='my-12 flex flex-col md:flex-row'>
                 <div className='lg:w-1/5'>&nbsp;</div>
                 <div className='lg:w-3/5 text-xl'>
-                    <MathJaxContext>
-                        <MathJax>
-                            <div className='text-blue-700 text-center text-3xl mb-8'>
-                                {lesson.name}
-                            </div>
-                        </MathJax>
-                        <MathJax>
+                    <MathJax>
+                        <div className='text-blue-700 text-center text-3xl mb-8'>
+                            {lesson.name}
+                        </div>
+                    </MathJax>
+                    <MathJax>
                         <div className='text-xl mb-8'>
-                                {lesson.content}
-                            </div>
-                        </MathJax>
-                    </MathJaxContext>
-                {
-                    lesson.image != null && <object data={`/src/assets/docs/${lesson.image}`} type="application/pdf" width="100%" height="700vh"></object>
-                } 
-
+                            {lesson.content}
+                        </div>
+                    </MathJax>
+                    {
+                        lesson.pdf_file != null && <object data={`http://localhost:5172/uploads/${lesson.pdf_file}`} type="application/pdf" width="100%" height="700vh"></object>
+                    } 
                 </div>
                 <div className='lg:w-1/5'>&nbsp;</div>
             </div>
