@@ -18,6 +18,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 //-------------------------------------------------------------------
 const app = express();
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 //-------------------------------------------------------------------
 //-- Enable CORS (important if React app is on a different port)
@@ -64,15 +65,23 @@ const upload = multer({ storage, fileFilter});
 //-------------------------------------------------------------------
 //-- Endpoint for uploading an image
 //-------------------------------------------------------------------
-app.post('/upload', upload.single('pdf_file'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).send('No file uploaded.');
+app.post('/upload', upload.single('pdf'), (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).send('No file uploaded.');
+        }
+        res.status(200).send({
+            message: 'File uploaded successfully',
+            file: req.file,
+        });
+    } catch (error) {
+        res.status(500).send({
+            message: error.message,
+        });
     }
-    //-- Send back the path to the uploaded file
-    res.status(200).json({ filePath: req.file.filename });
-});
+  });
 
-//-------------------------------------------------------------------
+  //-------------------------------------------------------------------
 // Serve static files (if needed)
 //-------------------------------------------------------------------
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

@@ -10,7 +10,8 @@ const CreateLesson = () => {
     const [name, setLessonName] = useState('')
     const [content, setLessonContent] = useState('')
     const [status, setLessonStatus] = useState('on')
-    const [pdfFile, setPdfFile] = useState('')
+    const [pdfFile, setPdfFile] = useState(null)
+    // const [pdf_file, setPdf_file] = useState(null)
 
     useEffect(() => {
 
@@ -28,32 +29,48 @@ const CreateLesson = () => {
         setPdfFile(e.target.files[0]);
     };    
 
-    const save = async () => {
+    const save = async (e) => {
 
-        let pdf_file = ''
+        e.preventDefault();
+
+        if (!pdfFile) {
+            alert('Error: Please select a file to upload.')
+            return;
+        }
+
         const formData = new FormData();
-        formData.append('pdf_file', pdfFile);
+        formData.append('pdf', pdfFile);
+        let pdf_file = ''
         
         try {
-            const response = await axios.post('http://localhost:5172/upload', formData, {
+            await axios.post('http://localhost:5172/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-            });
-            pdf_file = response.data.filePath
+            }).then((res) => pdf_file = res.data.file.filename)
+
+            // console.log(pdf_file);
+            // const pdf_file = response.data.file.filename
+
         } catch (error) {
             console.error('Error uploading file:', error);
+            alert(error)
         }
         
         const url = '/api/lessons'
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
+        // const row = {course_id, name, content, pdf_file, status}
 
-        const res = await fetch(url, {
+        // console.log(row);
+        // alert(row.course_id + ' ' + row.name)
+
+        await fetch(url, {
             headers: myHeaders,
             method: "POST",
             body: JSON.stringify({course_id, name, content, pdf_file, status}),
-        })
+        }).then(() => alert("Lesson created successfully."))
+
     }
 
     return (
