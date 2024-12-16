@@ -11,7 +11,6 @@ const CreateLesson = () => {
     const [content, setLessonContent] = useState('')
     const [status, setLessonStatus] = useState('on')
     const [pdfFile, setPdfFile] = useState(null)
-    // const [pdf_file, setPdf_file] = useState(null)
 
     useEffect(() => {
 
@@ -48,28 +47,20 @@ const CreateLesson = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             }).then((res) => pdf_file = res.data.file.filename)
-
-            // console.log(pdf_file);
-            // const pdf_file = response.data.file.filename
-
         } catch (error) {
             console.error('Error uploading file:', error);
-            alert(error)
         }
         
         const url = '/api/lessons'
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        // const row = {course_id, name, content, pdf_file, status}
-
-        // console.log(row);
-        // alert(row.course_id + ' ' + row.name)
-
         await fetch(url, {
             headers: myHeaders,
             method: "POST",
             body: JSON.stringify({course_id, name, content, pdf_file, status}),
-        }).then(() => alert("Lesson created successfully."))
+        })
+        .then(() => alert("Lesson created successfully."))
+        .catch((error) => alert(error))
 
     }
 
