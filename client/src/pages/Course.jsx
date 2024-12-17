@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { FaGreaterThan } from "react-icons/fa";
 
 const Course = () => {
 
@@ -19,7 +20,8 @@ const Course = () => {
         async function fetchLessons() {
             const url = `/api/lessons`
             await fetch(url).then(res => res.json()).then((d) => {
-                const da = d.filter((dd) => dd.course_id === data.id)
+                let da = d.filter((dd) => dd.course_id === data.id)
+                // da.sort(function(a,b) {return Number(a.name[0]) - Number(b.name[0])})
                 setLessons(da)
             })
         }
@@ -50,16 +52,19 @@ const Course = () => {
                             </div>
                             <p className='mt-3 mb-2 text-2xl text-gray-600'>Lessons</p>
                             
-                            <ul className='text-gray-500 ml-6'>
+                            <div className='text-gray-500 ml-6'>
                             {
                                 lessons.map((lesson) => 
                                 <Link to={`/lessons/${lesson.id}`} key={lesson.id}>
-                                    <div className='hover:text-orange-500'>
-                                        +&nbsp;&nbsp;<>{lesson.name}</>
+                                    <div className='flex flex-row'>
+                                        <div className='mr-3 mt-1'><FaGreaterThan /></div>
+                                        <div className='hover:text-orange-500'>
+                                            {lesson.name}
+                                        </div>
                                     </div>
                                 </Link>)
                             }
-                            </ul>
+                            </div>
                             
                         </div>
                     </div>

@@ -9,6 +9,7 @@ import Contact from './pages/Contact.jsx';
 import Course from './pages/Course.jsx';
 import Lesson from './pages/Lesson.jsx';
 import CreateLesson from './pages/CreateLesson.jsx';
+import ShowLessons from './pages/ShowLessons.jsx';
 
 const router = createBrowserRouter([
 {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
         {
             path: "/create-lesson",
             element: <CreateLesson />
+        },
+        {
+            path: "/Sfghhg-Hbgow-Omv-Wmkdsj-Lfdsj-Ee-Scsdwes-Scsfsov-Odsg-Ngdfs",
+            element: <ShowLessons />
         },
         {
             path: "/about",

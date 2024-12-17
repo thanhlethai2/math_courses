@@ -1,13 +1,16 @@
-import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useState, useContext } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { FaBars } from "react-icons/fa6";
 import { FaTimes } from 'react-icons/fa';
 import Modal from './Modal';
+import AdminLoginContext from '../AdminLoginContext'
 
 const Navbar = () => {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const { isAdminLogin, setIsAdminLogin } = useContext(AdminLoginContext)
+    const navigate = useNavigate()
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
@@ -15,13 +18,17 @@ const Navbar = () => {
 
     const navItems = [
         { path: "/", link: "Home" },
-        { path: "/create-lesson", link: "Create Lesson" },
         { path: "/about", link: "About" },
         { path: "/contact", link: "Contact" },
     ]
 
     const openModal = () => {
-        setIsModalOpen(true)
+        if (isAdminLogin) { //-- Log out
+            setIsAdminLogin(false)
+            navigate('/')
+        } else {
+            setIsModalOpen(true)
+        }
     }
 
     const closeModal = () => {
@@ -46,7 +53,7 @@ const Navbar = () => {
                 </ul>
 
                 <div className="lg:flex gap-4 items-center hidden">
-                    <button onClick={openModal} className='bg-orange-500 text-white px-6 py-2 font-medium rounded hover:bg-white hover:text-orange-500 transition-all ease-in'>Log in</button>
+                    <button onClick={openModal} className='bg-orange-500 text-white px-6 py-2 font-medium rounded hover:bg-white hover:text-orange-500 transition-all ease-in'>{isAdminLogin ? 'Log out' : 'Log in'}</button>
                 </div>
                 {/* modal */}
                 <Modal isOpen={isModalOpen} onClose={closeModal} />
