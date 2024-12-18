@@ -18,12 +18,11 @@ const Course = () => {
             })
         }
         async function fetchLessons() {
-            const url = `/api/lessons`
-            await fetch(url).then(res => res.json()).then((d) => {
-                let da = d.filter((dd) => dd.course_id === data.id)
-                // da.sort(function(a,b) {return Number(a.name[0]) - Number(b.name[0])})
-                setLessons(da)
-            })
+            await fetch(`/api/lessons`)
+                .then(res => res.json())
+                .then((da) => da.filter((dd) => dd.course_id === data.id))
+                .then((da) => da.sort((a,b) => a.name.localeCompare(b.name)))
+                .then((da) => setLessons(da))                
         }
 
         fetchCourse()

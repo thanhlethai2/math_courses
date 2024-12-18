@@ -4,20 +4,36 @@ import { useNavigate } from 'react-router-dom'
 import FormData from 'form-data'
 import AdminLoginContext from '../AdminLoginContext'
 
-const CreateLesson = () => {
+const EditLesson = () => {
 
-    const [courses, setCourses] = useState([])
+    const arr = window.location.href.split("/")
+    const id = arr[arr.length - 1]
+    const [lesson, setLesson] = useState({})
     const { isAdminLogin, setIsAdminLogin } = useContext(AdminLoginContext)
+    const [courses, setCourses] = useState([])
     const navigate = useNavigate()
-    const [course_id, setCourseId] = useState(0)
-    const [name, setLessonName] = useState('')
-    const [content, setLessonContent] = useState('')
-    const [status, setLessonStatus] = useState('on')
+    const [course_id, setCourseId] = useState(lesson.course_id)
+    const [name, setLessonName] = useState(lesson.name)
+    const [content, setLessonContent] = useState(lesson.content)
+    const [status, setLessonStatus] = useState(lesson.status)
     const [pdfFile, setPdfFile] = useState(null)
 
     useEffect(() => {
 
         setIsAdminLogin(true)
+
+        async function fetchLesson() {
+            const url = `/api/lessons/${id}`
+            await fetch(url).then(res => res.json()).then((d) => {
+                setLesson(d[0])
+            })
+        }
+
+        fetchLesson()
+
+    }, [])
+
+    useEffect(() => {
 
         async function fetchCourse() {
             const url = `/api/courses`
@@ -33,52 +49,57 @@ const CreateLesson = () => {
         setPdfFile(e.target.files[0]);
     };    
 
-    const save = async (e) => {
+    const update = async (e) => {
 
         e.preventDefault();
 
+        let pdf_file = ''
+
         if (!pdfFile) {
-            alert('Error: Please select a file to upload.')
-            return;
+            const formData = new FormData();
+            formData.append('pdf', pdfFile);
+            
+            try {
+                await axios.post('http://localhost:5172/upload', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }).then((res) => pdf_file = res.data.file.filename)
+            } catch (error) {
+                console.error('Error uploading file:', error);
+            }
         }
 
-        const formData = new FormData();
-        formData.append('pdf', pdfFile);
-        let pdf_file = ''
-        
-        try {
-            await axios.post('http://localhost:5172/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            }).then((res) => pdf_file = res.data.file.filename)
-        } catch (error) {
-            console.error('Error uploading file:', error);
-        }
-        
-        const url = '/api/lessons'
+        const url = `/api/lessons/${id}`
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
+        let data = {}
+        if (pdfFile) {
+            data = {course_id, name, content, pdf_file, status}
+        } else {
+            data = {course_id, name, content, status}
+        }
         await fetch(url, {
             headers: myHeaders,
-            method: "POST",
-            body: JSON.stringify({course_id, name, content, pdf_file, status}),
+            method: "PUT",
+            body: JSON.stringify(data),
         })
-        .then(() => alert("Lesson created successfully."))
+        .then(() => alert("Lesson updated successfully."))
         .catch((error) => alert(error))
         
         navigate('/Sfghhg-Hbgow-Omv-Wmkdsj-Lfdsj-Ee-Scsdwes-Scsfsov-Odsg-Ngdfs')
+
     }
 
     return (
         <div>
             <div className='py-16 bg-black text-center text-white px-4'>
-                <h2 className='text-5xl lg:text-7xl leading-snug font-bold mt-16'>Create Lesson Page</h2>
+                <h2 className='text-5xl lg:text-7xl leading-snug font-bold mt-16'>Edit Lesson Page</h2>
             </div>
             <div className='my-8 flex flex-col lg:flex-row gap-12'>
                 <div className='lg:w-1/5'>&nbsp;</div>
                 <div className='lg:w-3/5'>
-                    <form onSubmit={save}>
+                    <form onSubmit={update}>
                         {/* Course */}
                         <div className="col-span-full">
                             <label htmlFor="course_id" className="block text-xl font-medium text-gray-900">
@@ -92,10 +113,15 @@ const CreateLesson = () => {
                                     onChange={(e) => setCourseId(e.target.value)}
                                     className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-md"
                                 >
-                                    <option value={0}>Select course ...</option>
                                 {
                                     courses.map((course) =>
-                                        <option key={course.id} value={course.id}>{course.name}</option>
+                                        <option 
+                                            key={course.id} 
+                                            value={course.id} 
+                                            selected={course.id === lesson.course_id ? true : false}
+                                        >
+                                            {course.name}
+                                        </option>
                                     )               
                                 }
                                 </select>
@@ -114,6 +140,7 @@ const CreateLesson = () => {
                                     type="text"
                                     onChange={(e) => setLessonName(e.target.value)}
                                     autoComplete="name"
+                                    defaultValue={lesson.name}
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-md"
                                 />
                             </div>
@@ -129,9 +156,9 @@ const CreateLesson = () => {
                                     id="content"
                                     name="content"
                                     onChange={(e) => setLessonContent(e.target.value)}
+                                    defaultValue={lesson.content}
                                     rows={3}
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-md"
-                                    defaultValue={''}
                                 />
                             </div>
                         </div>
@@ -160,7 +187,7 @@ const CreateLesson = () => {
                                     <div className="mt-2 space-y-2 flex flex-col lg:flex-row">
                                         <div className="flex items-center gap-x-3 pr-8 mt-2">
                                             <input
-                                                defaultChecked
+                                                checked={lesson.status === 'on' ? true : false}
                                                 id="status_on"
                                                 name="status"
                                                 type="radio"
@@ -174,6 +201,7 @@ const CreateLesson = () => {
                                         </div>
                                         <div className="flex items-center gap-x-3">
                                             <input
+                                                checked={lesson.status === 'off' ? true : false}
                                                 id="status_off"
                                                 name="status"
                                                 type="radio"
@@ -195,7 +223,7 @@ const CreateLesson = () => {
                                         type="submit"
                                         className="rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
-                                        Create
+                                        Update
                                     </button>
                                 </div>
                             </div>
@@ -208,4 +236,4 @@ const CreateLesson = () => {
     )
 }
 
-export default CreateLesson
+export default EditLesson

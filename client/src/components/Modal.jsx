@@ -18,7 +18,12 @@ const Modal = ({isOpen, onClose}) => {
 
         e.preventDefault()
 
-        if (password === '220461Ltt') {
+        const date = new Date()
+        const pass = '22' + date.getDate() + '04' + `${date.getMonth()+1}` + 'Ltt' + date.getFullYear()
+        
+        // '220461Ltt' + date.toLocaleDateString()
+
+        if (password === pass) {
             setIsAdminLogin(true)
             handleClose()
             navigate('/Sfghhg-Hbgow-Omv-Wmkdsj-Lfdsj-Ee-Scsdwes-Scsfsov-Odsg-Ngdfs')

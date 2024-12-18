@@ -9,6 +9,7 @@ import Contact from './pages/Contact.jsx';
 import Course from './pages/Course.jsx';
 import Lesson from './pages/Lesson.jsx';
 import CreateLesson from './pages/CreateLesson.jsx';
+import EditLesson from './pages/EditLesson.jsx';
 import ShowLessons from './pages/ShowLessons.jsx';
 
 const router = createBrowserRouter([
@@ -21,8 +22,12 @@ const router = createBrowserRouter([
             element: <Home />
         },
         {
-            path: "/create-lesson",
+            path: "/Cfsh12-Rghs-Exbcuw-Aas-Tpomdh-Eqa-Lvcxxw-Efdsh-Suic-Sqwas-Offas-Ngdfhg",
             element: <CreateLesson />
+        },
+        {
+            path: "/Eewu29h-D12dr-Ids93-Tdl3o-Lalsu7-Edajsh67-Svcnzx-Steyuq-O000-Ndhjady/:id",
+            element: <EditLesson />
         },
         {
             path: "/Sfghhg-Hbgow-Omv-Wmkdsj-Lfdsj-Ee-Scsdwes-Scsfsov-Odsg-Ngdfs",

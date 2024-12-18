@@ -33,21 +33,15 @@ const Lesson = () => {
                 setCourseName(d[0].name)
             })
         }
-
-        fetchCourse()
-
-    }, [lesson])
-
-    useEffect(() => {
-
         async function fetchLessons() {
-            const url = `/api/lessons`
-            await fetch(url).then(res => res.json()).then((d) => {
-                const da = d.filter((dd) => dd.course_id === lesson.course_id)
-                setLessons(da)
-            })
+            await fetch(`/api/lessons`)
+                .then(res => res.json())
+                .then((data) => data.filter((dd) => dd.course_id === lesson.course_id))
+                .then((data) => data.sort((a,b) => a.name.localeCompare(b.name)))
+                .then((data) => setLessons(data))                
         }
 
+        fetchCourse()
         fetchLessons()
 
     }, [lesson])
@@ -61,7 +55,7 @@ const Lesson = () => {
                 </h2>
             </div>
             <div className='my-12 flex flex-col md:flex-row ml-16'>
-                <div className='lg:w-3/5 text-xl'>
+                <div className='lg:w-3/4 text-xl'>
                     <MathJax>
                         <div className='text-blue-700 text-center text-3xl mb-8'>
                             {lesson.name}
@@ -74,25 +68,35 @@ const Lesson = () => {
                     </MathJax>
                     {
                         lesson.pdf_file != null && <object data={`http://localhost:5172/uploads/${lesson.pdf_file}`} type="application/pdf" width="100%" height="700vh"></object>
-                    } 
-                </div>
-                <div className='lg:w-2/5 ml-10'>
-                    <p className='mt-3 mb-2 text-2xl text-gray-600'>Lessons</p>
-                            
+                    }
+                </div> 
+                
+                <div className='lg:w-1/4 ml-8'>
+                    <p className='mt-3 mb-2 text-xl text-gray-600'>Lessons</p>
+                    <hr/>
                     <div className='text-gray-500 ml-6'>
                     {
-                        lessons.map((les) => 
-                        <Link reloadDocument={true} to={`/lessons/${les.id}`} key={les.id}>
-                            <div className='flex flex-row'>
-                                <div className='mr-3 mt-1'><FaGreaterThan /></div>
-                                <div className='hover:text-orange-500'>
+                        lessons.map((les) => (les.id !== lesson.id) 
+                            ?
+                            <Link reloadDocument={true} to={`/lessons/${les.id}`} key={les.id}>
+                                <div className='flex flex-row my-2'>
+                                    <div className='mr-3 mt-2'><FaGreaterThan /></div>
+                                    <div className='hover:text-orange-500 text-sm my-1'>
+                                        {les.name}
+                                    </div>
+                                </div>
+                            </Link>
+                            : 
+                            <div className='flex flex-row my-2'>
+                                <div className='mr-3 mt-2'><FaGreaterThan /></div>
+                                <div className='text-sm my-1 font-semibold text-blue-700'>
                                     {les.name}
                                 </div>
                             </div>
-                        </Link>)
+                        )
                     }
                     </div>
-
+                    <hr/> 
                 </div>
             </div>
         </div>
@@ -100,3 +104,5 @@ const Lesson = () => {
 }
 
 export default Lesson
+
+
