@@ -57,10 +57,10 @@ const ShowLessons = () => {
     }
 
     const handleEditLesson = (id) => {
-        const ret = confirm(`Edit lesson with id = ${id}?`)
-        if (ret) {
-            navigate(`/Eewu29h-D12dr-Ids93-Tdl3o-Lalsu7-Edajsh67-Svcnzx-Steyuq-O000-Ndhjady/${id}`)
-        }
+        // const ret = confirm(`Edit lesson with id = ${id}?`)
+        // if (ret) {
+        navigate(`/Eewu29h-D12dr-Ids93-Tdl3o-Lalsu7-Edajsh67-Svcnzx-Steyuq-O000-Ndhjady/${id}`)
+        // }
     }
 
     // Define columns

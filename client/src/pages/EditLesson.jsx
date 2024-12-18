@@ -47,7 +47,11 @@ const EditLesson = () => {
 
     const handleFileChange = (e) => {
         setPdfFile(e.target.files[0]);
-    };    
+    };
+    
+    const handleCancel = () => {
+        navigate('/Sfghhg-Hbgow-Omv-Wmkdsj-Lfdsj-Ee-Scsdwes-Scsfsov-Odsg-Ngdfs')
+    }
 
     const update = async (e) => {
 
@@ -55,7 +59,7 @@ const EditLesson = () => {
 
         let pdf_file = ''
 
-        if (!pdfFile) {
+        if (pdfFile != null) {
             const formData = new FormData();
             formData.append('pdf', pdfFile);
             
@@ -74,7 +78,7 @@ const EditLesson = () => {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         let data = {}
-        if (pdfFile) {
+        if (pdfFile != null) {
             data = {course_id, name, content, pdf_file, status}
         } else {
             data = {course_id, name, content, status}
@@ -173,7 +177,7 @@ const EditLesson = () => {
                                     id="pdf_file"
                                     name="pdf_file"
                                     type="file"
-                                    onChange={handleFileChange}
+                                    onChange={(e) => handleFileChange(e)}
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-md"
                                 />
                             </div>
@@ -217,13 +221,20 @@ const EditLesson = () => {
                                 </fieldset>
                             </div>
                             <div className='lg:w-1/2'>
-                                {/* Button */}
+                                {/* Buttons */}
                                 <div className="mt-12 flex items-center justify-end gap-x-6">
                                     <button
                                         type="submit"
                                         className="rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
                                         Update
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleCancel()}
+                                        className="rounded-md bg-cyan-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-cyan-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    >
+                                        Cancel
                                     </button>
                                 </div>
                             </div>

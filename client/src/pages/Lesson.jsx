@@ -62,7 +62,7 @@ const Lesson = () => {
                         </div>
                     </MathJax>
                     <MathJax>
-                        <div className='text-xl mb-8'>
+                        <div className='text-lg mb-8 border rounded-md bg-gray-100 px-3 py-3'>
                             {lesson.content}
                         </div>
                     </MathJax>

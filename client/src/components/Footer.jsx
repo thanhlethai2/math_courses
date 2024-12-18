@@ -4,7 +4,7 @@ const Footer = () => {
     return (
         <div className='bg-gray-900 text-white'>
             <div className='px-4 pt-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-4'>
-                <div className='grid mb-8 lg:grid-cols-6'>
+                <div className='grid mb-8 lg:grid-cols-4'>
                     <div className='grid grid-cols-2 gap-5 lg:col-span-5 md:grid-cols-4'>
                         <div>
                             <p className='font-medium tracking-wide text-gray-300'>Calculus</p>
@@ -34,18 +34,24 @@ const Footer = () => {
                                 <li>
                                     <a href="http://localhost:5173/courses/4" className='text-gray-500 transition-colors duration-300 hover:text-orange-500'>Numerical Methods</a>
                                 </li>
+                                {/* <li>
+                                    <a href="http://localhost:5173/courses/4" className='text-gray-500 transition-colors duration-300 hover:text-orange-500'>Phương Pháp Tính</a>
+                                </li> */}
                             </ul>
                         </div>
 
                         <div>
-                            <p className='font-medium tracking-wide text-gray-300'>Vietnam-French Program</p>
+                            <p className='font-medium tracking-wide text-gray-300'>Chương trình Việt - Pháp</p>
                             <ul className='mt-2 space-y-2'>
                                 <li>
-                                    <a href="http://localhost:5173/courses/5" className='text-gray-500 transition-colors duration-300 hover:text-orange-500'>Calculus I (VP)</a>
+                                    <a href="http://localhost:5173/courses/5" className='text-gray-500 transition-colors duration-300 hover:text-orange-500'>Giải Tích I (VP)</a>
                                 </li>
                                 <li>
-                                    <a href="http://localhost:5173/courses/6" className='text-gray-500 transition-colors duration-300 hover:text-orange-500'>Calculus II (VP)</a>
+                                    <a href="http://localhost:5173/courses/6" className='text-gray-500 transition-colors duration-300 hover:text-orange-500'>Giải Tích II (VP)</a>
                                 </li>
+                                {/* <li>
+                                    <a href="http://localhost:5173/courses/6" className='text-gray-500 transition-colors duration-300 hover:text-orange-500'>Giải Tích III (VP)</a>
+                                </li> */}
                             </ul>
                         </div>
                     </div>
