@@ -3,6 +3,12 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import FormData from 'form-data'
 import AdminLoginContext from '../AdminLoginContext'
+import { toast } from 'react-toastify';
+
+const toast_config = {
+    position: toast.TOP_RIGHT,
+    autoClose: 3000, // milliseconds
+}
 
 const CreateLesson = () => {
 
@@ -33,39 +39,46 @@ const CreateLesson = () => {
         setPdfFile(e.target.files[0]);
     };    
 
+    const handleCancel = () => {
+        navigate('/Sfghhg-Hbgow-Omv-Wmkdsj-Lfdsj-Ee-Scsdwes-Scsfsov-Odsg-Ngdfs')
+    }
+
     const save = async (e) => {
 
         e.preventDefault();
-
-        if (!pdfFile) {
-            alert('Error: Please select a file to upload.')
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('pdf', pdfFile);
+        
         let pdf_file = ''
-        
-        try {
-            await axios.post('http://localhost:5172/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            }).then((res) => pdf_file = res.data.file.filename)
-        } catch (error) {
-            console.error('Error uploading file:', error);
+
+        if (pdfFile != null) {
+            const formData = new FormData();
+            formData.append('pdf', pdfFile);
+            
+            try {
+                await axios.post('http://localhost:5172/upload', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }).then((res) => pdf_file = res.data.file.filename)
+            } catch (error) {
+                toast.error('Error uploading file: ' + error, toast_config)
+            }
         }
-        
-        const url = '/api/lessons'
+
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        await fetch(url, {
+        let data = {}
+        if (pdfFile != null) {
+            data = {course_id, name, content, pdf_file, status}
+        } else {
+            data = {course_id, name, content, status}
+        }
+        await fetch('/api/lessons', {
             headers: myHeaders,
             method: "POST",
-            body: JSON.stringify({course_id, name, content, pdf_file, status}),
+            body: JSON.stringify(data),
         })
-        .then(() => alert("Lesson created successfully."))
-        .catch((error) => alert(error))
+        .then(() => toast.success("Lesson created successfully.", toast_config))
+        .catch((error) => toast.error(error, toast_config))
         
         navigate('/Sfghhg-Hbgow-Omv-Wmkdsj-Lfdsj-Ee-Scsdwes-Scsfsov-Odsg-Ngdfs')
     }
@@ -196,6 +209,13 @@ const CreateLesson = () => {
                                         className="rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
                                         Create
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleCancel()}
+                                        className="rounded-md bg-cyan-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-cyan-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    >
+                                        Cancel
                                     </button>
                                 </div>
                             </div>

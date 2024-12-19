@@ -3,6 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import DataTable from 'react-data-table-component';
 import AdminLoginContext from '../AdminLoginContext'
 import { FaTrash, FaPencil } from 'react-icons/fa6'
+import { toast } from 'react-toastify';
+
+const toast_config = {
+    position: toast.TOP_RIGHT,
+    autoClose: 3000, // milliseconds
+}
 
 const ShowLessons = () => {
 
@@ -41,17 +47,35 @@ const ShowLessons = () => {
         navigate('/Cfsh12-Rghs-Exbcuw-Aas-Tpomdh-Eqa-Lvcxxw-Efdsh-Suic-Sqwas-Offas-Ngdfhg')
     }
     
+    const deleteFile = async (filename) => {
+        try {
+            const response = await fetch(`http://localhost:5172/delete-file?filename=${filename}`, {
+                method: 'DELETE',
+            });
+            const result = await response.json();
+            if (response.ok) {
+                toast.success(result.message, toast_config)
+            } else {
+                toast.error(result.message, toast_config)
+            }
+        } catch (error) {
+            toast.error('Error deleting file: ' + error, toast_config)
+        }
+    }
+
     const handleDeleteLesson = async (id) => {
-        const ret = confirm(`Deleting lesson with id = ${id}?`)
-        if (ret) {
+        if (confirm(`Deleting lesson with id = ${id}?`)) {
+            const lesson = lessons.find((les) => id === les.id)
             const myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             await fetch(`/api/lessons/${id}`, {
                 headers: myHeaders,
                 method: "DELETE",
             })
-            .then(() => alert("Lesson deleted successfully."))
-            .catch((error) => alert(error))
+            .then(() => toast.success("Lesson deleted successfully.", toast_config))
+            .catch((error) => toast.error(error, toast_config))
+            //-- Delete old pdf file
+            lesson.pdf_file != null && deleteFile(lesson.pdf_file)
             navigate(0)
         }
     }
@@ -94,6 +118,12 @@ const ShowLessons = () => {
             selector: row => row.pdf_file, // Access the `pdf_file` property
             sortable: false,
             width: '160px'
+        },
+        {
+            name: 'Status',
+            selector: row => row.status, // Access the `pdf_file` property
+            sortable: false,
+            width: '120px'
         },
         {
             name: 'Actions',

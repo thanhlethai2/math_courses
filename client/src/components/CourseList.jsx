@@ -10,7 +10,6 @@ const CourseList = () => {
         async function fetchCourses() {
             const url = "/api/courses"
             await fetch(url).then(res => res.json()).then((data) => {
-                // console.log(data);
                 setCourses(data.filter((course => course.status === 'on')))
             })
         }

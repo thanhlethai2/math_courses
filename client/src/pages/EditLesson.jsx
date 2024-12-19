@@ -3,6 +3,12 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import FormData from 'form-data'
 import AdminLoginContext from '../AdminLoginContext'
+import { toast } from 'react-toastify';
+
+const toast_config = {
+    position: toast.TOP_RIGHT,
+    autoClose: 3000, // milliseconds
+}
 
 const EditLesson = () => {
 
@@ -53,6 +59,22 @@ const EditLesson = () => {
         navigate('/Sfghhg-Hbgow-Omv-Wmkdsj-Lfdsj-Ee-Scsdwes-Scsfsov-Odsg-Ngdfs')
     }
 
+    const deleteFile = async (filename) => {
+        try {
+            const response = await fetch(`http://localhost:5172/delete-file?filename=${filename}`, {
+                method: 'DELETE',
+            });
+            const result = await response.json();
+            if (response.ok) {
+                toast.success(result.message, toast_config)
+            } else {
+                toast.error(result.message, toast_config)
+            }
+        } catch (error) {
+            toast.error('Error deleting file: ' + error, toast_config)
+        }
+    }
+
     const update = async (e) => {
 
         e.preventDefault();
@@ -60,6 +82,9 @@ const EditLesson = () => {
         let pdf_file = ''
 
         if (pdfFile != null) {
+            //-- Delete old pdf file
+            lesson.pdf_file != null && deleteFile(lesson.pdf_file)
+            //-- Insert new pdf file
             const formData = new FormData();
             formData.append('pdf', pdfFile);
             
@@ -70,7 +95,7 @@ const EditLesson = () => {
                     },
                 }).then((res) => pdf_file = res.data.file.filename)
             } catch (error) {
-                console.error('Error uploading file:', error);
+                toast.error('Error uploading file: ' + error, toast_config)
             }
         }
 
@@ -88,8 +113,8 @@ const EditLesson = () => {
             method: "PUT",
             body: JSON.stringify(data),
         })
-        .then(() => alert("Lesson updated successfully."))
-        .catch((error) => alert(error))
+        .then(() => toast.success("Lesson updated successfully.", toast_config))
+        .catch((error) => toast.error(error, toast_config))
         
         navigate('/Sfghhg-Hbgow-Omv-Wmkdsj-Lfdsj-Ee-Scsdwes-Scsfsov-Odsg-Ngdfs')
 
@@ -114,16 +139,13 @@ const EditLesson = () => {
                                     id="course_id"
                                     name="course_id"
                                     autoComplete="course-id"
+                                    defaultValue={lesson.course_id}
                                     onChange={(e) => setCourseId(e.target.value)}
                                     className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-md"
                                 >
                                 {
                                     courses.map((course) =>
-                                        <option 
-                                            key={course.id} 
-                                            value={course.id} 
-                                            selected={course.id === lesson.course_id ? true : false}
-                                        >
+                                        <option key={course.id} value={course.id} >
                                             {course.name}
                                         </option>
                                     )               
