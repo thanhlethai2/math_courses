@@ -87,6 +87,10 @@ const ShowLessons = () => {
         // }
     }
 
+    const handleShowQuestion = () => {
+        navigate("/Sbcjzhk-Hfsg-Ods93-Wbvcnz91-Qczx-23nz-Udak-E09czcx82-Sbzouen45-Txz-I12345-Ozxxfr-Nsa56")
+    }
+
     // Define columns
     const columns = [
         {
@@ -157,8 +161,13 @@ const ShowLessons = () => {
     return (
         <div className='py-24 px-6 w-[100%]'>
             <div className='mx-auto flex justify-between items-center'>
-                <h1 className='text-3xl my-4 font-bold text-orange-500'>Lesson List</h1>
-                <button className='bg-cyan-700 text-white hover:bg-cyan-500 px-6 py-2 rounded transition-all ease-in' onClick={() => handleCreateLesson()}>Create Lesson</button>
+                <div>
+                    <h1 className='text-3xl my-4 font-bold text-orange-500'>Lesson List</h1>
+                </div>
+                <div>
+                    <button className='bg-cyan-700 text-white hover:bg-cyan-500 px-6 py-2 rounded transition-all ease-in mr-2' onClick={() => handleCreateLesson()}>Create Lesson</button>
+                    <button className='bg-blue-700 text-white hover:bg-blue-500 px-6 py-2 rounded transition-all ease-in' onClick={() => handleShowQuestion()}>Show Questions</button>
+                </div>
             </div>
 
             <DataTable

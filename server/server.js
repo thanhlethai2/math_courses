@@ -9,14 +9,17 @@ import dotenv from 'dotenv';
 import path from 'path';
 import cors from 'cors';
 import fs from 'fs';
+import courseRouter from './courses.js'
+import lessonRouter from './lessons.js'
+import questionRouter from './questions.js'
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-//-- Deriving __dirname in ESM using import.meta.url
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 //-------------------------------------------------------------------
 //-- CONSTANTS
 //-------------------------------------------------------------------
+//-- Deriving __dirname in ESM using import.meta.url
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 dotenv.config() //- for using .env file
 app.use(express.json())
@@ -105,10 +108,9 @@ app.delete('/delete-file', (req, res) => {
 //-------------------------------------------------------------------
 //-- ROUTERS
 //-------------------------------------------------------------------
-import courseRouter from './courses.js'
-import lessonRouter from './lessons.js'
 app.use('/api/courses', courseRouter)
 app.use('/api/lessons', lessonRouter)
+app.use('/api/questions', questionRouter)
 
 
 //-------------------------------------------------------------------

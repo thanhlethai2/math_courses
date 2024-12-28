@@ -1,26 +1,29 @@
-GET http://localhost:5172/api/lessons/2
+GET http://localhost:5172/api/questions/
 
 ###
-POST http://localhost:5172/api/lessons
+POST http://localhost:5172/api/questions
 Content-Type: application/json
 
 {
-    "course_id": 1,
-    "name": "Derivative",
-    "content": "gfhsjg",
-    "pdf_file": "1734124000840.pdf"
+    "lesson_id": 72,
+    "stem": "bcmn hjsdgtr jdsh  hfkdshf hfks",
+    "answer": "aaa",
+    "alt1": "bbb",
+    "alt2": "ccc",
+    "alt3": "ddd",
+    "alt4": "eee"
 }
 
 ###
-PUT http://localhost:5172/api/lessons/2
+PUT http://localhost:5172/api/questions/2
 Content-Type: application/json
 
 {
-    "content": "Given the equation $ax^2+bx+c=0$. First of all, we calculate $$\\Delta = b^2-4ac$$ If $\\Delta >0$ then the above equation has two real roots: $$x_{1,2} = \\dfrac{-b\\pm \\sqrt{\\Delta}}{2a}$$ If $\\Delta =0$ then the equation has one double root: $$x_{1,2} = -\\dfrac{b}{2a}$$ If $\\Delta<0$ the equation has two complex roots $$x_{1,2} = \\dfrac{-b\\pm i\\sqrt{-\\Delta}}{2a}$$" 
+    "stem": "123456" 
 }
 
 ###
-DELETE http://localhost:5172/api/courses/10
+DELETE http://localhost:5172/api/questions/10
 
 ###
 

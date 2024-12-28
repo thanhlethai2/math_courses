@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import AdminLoginContext from '../AdminLoginContext'
 
 const About = () => {
+
+    const { isAdminLogin, setIsAdminLogin } = useContext(AdminLoginContext)
+
+    setIsAdminLogin(false)
+
     return (
         <div>
             <div className='py-40 bg-black text-center text-white px-4'>
